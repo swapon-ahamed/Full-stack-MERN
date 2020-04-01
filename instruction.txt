@@ -1,0 +1,95 @@
+1. npm init -y
+2. git init
+3. touch server.js
+4. npm i -g create-react-app
+5. create-react-app client
+6. yarn add --dev concurrently
+7. yarn add --dev nodemon
+8. yarn add express morgan body-parser cors mongoose passport passport-jwt
+9. yarn run dev
+
+
+show all pid
+cmd: sudo lsof -iTCP -sTCP:LISTEN -n -P
+
+sudo kill <pid>
+
+mongodb install
+==================
+1. echo "deb [ arch=amd64 ] https://repo.mongodb.org/apt/ubuntu bionic/mongodb-org/4.2 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb.list
+2. sudo apt update
+3. sudo apt install mongodb-org
+4. sudo systemctl enable mongod
+5. sudo systemctl start mongod 
+
+
+uninstall:
+============
+sudo service mongod stop
+sudo apt-get purge mongodb-org*
+sudo rm -r /var/log/mongodb
+sudo rm -r /var/lib/mongodb
+
+
+Project plan
+============
+User Data:
+1. Name
+2. Email
+3. Password
+4. TotalIncome
+5. TotalExpense
+6. NetBalance
+7. Transactions = []
+ 
+
+ Transacton
+ ==========
+ 1. Type [ expense or income ]
+ 2. Amount
+ 3. Note
+ 4. Category
+ 5. date
+ 6. User 
+
+ react
+ =================
+ yarn add axios redux react-redux react-router-dom redux-thunk
+
+
+Redux ensures that each component of your application can have direct access to the state of the application without having to send props down to child components or using callback functions to send data back up to a parent.
+
+Redux is a predictable state container for JavaScript applications. 
+
+ Redux is a state management tool.
+
+ dataflow: UI => Actions => Reducer => Store => State =>UI
+
+
+ user: swapon@example.com
+ pass: 123456
+
+
+ Redux thunk: 
+ ============
+ By default actions in Redux are dispatched synchronously, which is a problem for any 
+ non-trivial app that needs to communicate with an external API or perform side effects.
+ Redux Thunk is a middleware that lets you call action creators that return a function 
+ instead of an action object.
+
+ Redux Thunk is a middleware that lets you call action creators that return a function 
+ instead of an action object. That function receives the store’s dispatch method, 
+ which is then used to dispatch regular synchronous actions inside the body of the function 
+ once the asynchronous operations have completed.
+
+
+
+ step: 1
+ Create Store
+ 
+ step: 2
+ create Reducer
+
+ step 3:
+ Connect store to redux in root index.js file.
+ import higher order component Provider from 'react-redux'
