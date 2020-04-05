@@ -23,6 +23,7 @@ module.exports = {
         }
 
         User.findOne({ email })
+            // use populate trhough transactions
             .then(user => {
                 if (!user) {
                     return resourceError(res, 'User not found!')
@@ -40,7 +41,14 @@ module.exports = {
                     let token = jwt.sign({
                         _id: user._id,
                         name: user.name,
-                        email: user.email
+                        email: user.email,
+                        balance: user.balance,
+                        income: user.income,
+                        expense: user.expense,
+                        transactions: user.transactions
+
+
+
 
                     }, 'SECRET',{expiresIn:'2h'})
 
@@ -78,7 +86,11 @@ module.exports = {
                             let user = new User({
                                 name,
                                 email,
-                                password: hash
+                                password: hash,
+                                balance: 0,
+                                expense: 0,
+                                income: 0,
+                                transactions: []
                             })
                             user.save()
                                 .then(user => {
@@ -95,5 +107,12 @@ module.exports = {
                 .catch(error => serverError(req, res))
 
         }
+    },
+    allUser(req, res){
+        User.find()
+            .then( users => {
+                return res.status(200).json(users)
+            })
+            .catch(error => console.log(error))
     }
 }

@@ -6,6 +6,7 @@ import * as types from './types'
 import setAutToken from '../../utils/setAuthToken'
 
 
+
 export const register = (user, history ) => dispatch => {
     axios.post('/api/users/register', user)
     .then(res => {
@@ -37,6 +38,8 @@ export const login = (user, history) => dispatch => {
         let token = res.data.token;
         localStorage.setItem('auth_token', token);
         let decodedToken = jwtDecode(token);
+
+
 
         setAutToken(token);
 

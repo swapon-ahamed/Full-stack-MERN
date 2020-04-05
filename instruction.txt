@@ -57,11 +57,15 @@ User Data:
  yarn add axios redux react-redux react-router-dom redux-thunk
 
 
+ Redux is a state management tool.
 Redux ensures that each component of your application can have direct access to the state of the application without having to send props down to child components or using callback functions to send data back up to a parent.
 
 Redux is a predictable state container for JavaScript applications. 
 
- Redux is a state management tool.
+Reducers are just pure functions that take the previous state and an action, and return the 
+next state.
+
+Redux guide: http://devguides.io/redux/introduction
 
  dataflow: UI => Actions => Reducer => Store => State =>UI
 
