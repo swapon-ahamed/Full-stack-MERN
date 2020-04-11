@@ -50,7 +50,7 @@ module.exports = {
 
 
 
-                    }, 'SECRET',{expiresIn:'2h'})
+                    }, 'SECRET',{expiresIn:'24h'})
 
                     return res.json({
                         message: 'Login successful',

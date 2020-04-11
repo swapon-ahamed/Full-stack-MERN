@@ -24,26 +24,29 @@ module.exports = {
                 }
 
                 updatedUser.transactions.unshift(trans._id)
-                User.findByIdAndUpdate(updatedUser._id, { $set : updatedUser },
+                User.findByIdAndUpdate(updatedUser._id, { $set: updatedUser },
                     { new: true })
-                    .then( result =>{
+                    .then(result => {
                         res.status(201).json({
                             message: 'Transaction created successfully',
                             ...trans._doc,
                             user: result
                         })
                     })
-                    .catch( error => {
+                    .catch(error => {
                         console.log(error)
                     })
-                
+
 
             })
-            .catch(error => { console.log(error)})
+            .catch(error => { console.log(error) })
 
     },
     getAll(req, res) {
-        Transaction.find()
+        
+        let { _id } = req.user;
+        // console.log(_id)
+        Transaction.find({ author: _id })
             .then(transactions => {
                 if (transactions.length === 0) {
                     res.status(200).json({
@@ -57,24 +60,24 @@ module.exports = {
     },
 
     getSingleTransaction(req, res) {
-        let {transactionId} = req.pararms;
+        let { transactionId } = req.pararms;
 
         Transaction.findById(transactionId)
-            .then( transaction => {
-                if( !transaction ){
+            .then(transaction => {
+                if (!transaction) {
                     res.status(200).json({
                         message: 'No transaction found'
                     })
-                }else{
+                } else {
                     res.status(200).json(transaction)
                 }
             })
             .catch(error => serverError(res, error))
     },
 
-    update(req, res){
-        let {transactionId} = req.pararms
-        User.findByIdAndUpdate(transactionId, {$set: req.body})
+    update(req, res) {
+        let { transactionId } = req.pararms
+        User.findByIdAndUpdate(transactionId, { $set: req.body })
             .then(result => {
                 res.status(200).json({
                     message: 'Updated successfully',
@@ -83,15 +86,15 @@ module.exports = {
             })
             .catch(error => serverError(res, error))
     },
-    remove(req, res){
-        let {transactionId} = req.pararms
+    remove(req, res) {
+        let { transactionId } = req.pararms
         User.findByIdAndRemove(transactionId)
-        .then(result => {
-            res.status(200).json({
-                message: 'Deleted successfull',
-                ...result
+            .then(result => {
+                res.status(200).json({
+                    message: 'Deleted successfull',
+                    ...result
+                })
             })
-        })
-        .catch(error => serverError(res, error))
+            .catch(error => serverError(res, error))
     }
 }

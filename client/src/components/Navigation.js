@@ -18,6 +18,7 @@ class Navigation extends Component {
                 <li className="nav-item">
                     <NavLink className="nav-link" to="/Register">Register</NavLink>
                 </li>
+                
                 {
 
                     this.props.auth.isAutenticated ?
