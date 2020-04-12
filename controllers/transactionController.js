@@ -43,7 +43,7 @@ module.exports = {
 
     },
     getAll(req, res) {
-        
+
         let { _id } = req.user;
         // console.log(_id)
         Transaction.find({ author: _id })
@@ -60,7 +60,7 @@ module.exports = {
     },
 
     getSingleTransaction(req, res) {
-        let { transactionId } = req.pararms;
+        let transactionId  = req.param('transactionId');
 
         Transaction.findById(transactionId)
             .then(transaction => {
@@ -76,23 +76,24 @@ module.exports = {
     },
 
     update(req, res) {
-        let { transactionId } = req.pararms
-        User.findByIdAndUpdate(transactionId, { $set: req.body })
+        let transactionId  = req.param('transactionId');
+        Transaction.findOneAndUpdate({ _id: transactionId }, { $set: req.body }, { new: true })
             .then(result => {
                 res.status(200).json({
                     message: 'Updated successfully',
-                    ...result
+                    transaction: result
                 })
             })
             .catch(error => serverError(res, error))
     },
     remove(req, res) {
-        let { transactionId } = req.pararms
-        User.findByIdAndRemove(transactionId)
+
+        let transactionId  = req.param('transactionId');
+        Transaction.findOneAndDelete({ _id:transactionId })
             .then(result => {
                 res.status(200).json({
                     message: 'Deleted successfull',
-                    ...result
+                    ...result._doc
                 })
             })
             .catch(error => serverError(res, error))

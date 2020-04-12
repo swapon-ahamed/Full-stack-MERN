@@ -1,12 +1,17 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { loadTransactions } from '../store/actions/transactionActions'
+import { loadTransactions, removeTransaction } from '../store/actions/transactionActions'
 import CreateTransaction from '../transactions/CreateTransaction'
+import UpdateTransaction from '../transactions/UpdateTransaction'
+
 
 class Dashboard extends Component {
 
     state = {
-        createModalOpen: false
+        createModalOpen: false,
+        updateModalOpen: false,
+        id: ""
+
     }
 
 
@@ -24,11 +29,28 @@ class Dashboard extends Component {
     }
 
 
+    openUpdateModal = (id) => {
+        this.setState({
+            updateModalOpen: true,
+            id
+        })
+    }
+
+
+    closeUpdateModal = () => {
+        this.setState({
+            updateModalOpen: false,
+            id: ""
+        })
+    }
+
+
+
     componentDidMount() {
         this.props.loadTransactions()
     }
 
-    
+
     render() {
         let { auth, transactions } = this.props
         return (
@@ -40,8 +62,8 @@ class Dashboard extends Component {
 
                         <br />
 
-                        <button className="btn btn-primary" 
-                        onClick={this.openCreateModal}
+                        <button className="btn btn-primary"
+                            onClick={this.openCreateModal}
                         >Create New Transaction</button>
                         <CreateTransaction
                             isOpen={this.state.createModalOpen}
@@ -61,6 +83,32 @@ class Dashboard extends Component {
                                         <p>
                                             <strong>  Short Notes:</strong> {transaction.note}
                                         </p>
+
+                                        {
+                                            this.state.id == transaction._id ?
+                                                <UpdateTransaction
+                                                    isOpen={this.state.updateModalOpen}
+                                                    close={this.closeUpdateModal}
+                                                    transaction={transaction}
+                                                />
+                                            : null
+                                        }
+
+                                        <p><button
+                                            className="btn btn-danger"
+                                            onClick={() =>
+                                                this.props.removeTransaction(transaction._id)
+                                            }
+                                        >Remove</button></p>
+
+
+
+                                        <p><button
+                                            className="btn btn-success"
+                                            onClick={() =>
+                                                this.openUpdateModal(transaction._id)
+                                            }
+                                        >Update</button></p>
                                     </li>
                                 ))
                             }
@@ -79,4 +127,4 @@ const mapStateToProps = state => ({
 })
 
 
-export default connect(mapStateToProps, { loadTransactions })(Dashboard)
+export default connect(mapStateToProps, { loadTransactions, removeTransaction })(Dashboard)
